@@ -1,17 +1,25 @@
-steps:
-  - name: Checkout
-    id: checkout
-    uses: actions/checkout@v4
+name: OWASP ZAP
 
-  - name: OWASP Top 10
-    uses: KittyChiu/alerts-to-owasp10@v0.1.2
-    env:
-      ORGANISATION: ${{ github.repository_owner }}
-      GITHUB_TOKEN: ${{ secrets.OWASP_TOKEN }}
+on: [push]
 
-  - name: Upload Artifact
-    id: upload
-    uses: actions/upload-artifact@v4
-    with:
-      name: mapping
-      path: mapping.csv
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: scan OWASP
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+    
+      - name: OWASP Top 10
+        uses: KittyChiu/alerts-to-owasp10@v0.1.2
+        env:
+          ORGANISATION: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.ALERTS_TOKEN }}
+    
+      - name: Upload Artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapping
+          path: mapping.csv
