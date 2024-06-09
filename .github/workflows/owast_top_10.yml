@@ -13,6 +13,8 @@ jobs:
     
       - name: OWASP Top 10
         uses: KittyChiu/alerts-to-owasp10@v0.1.2
+        with:
+          ref: master
         env:
           ORGANISATION: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.ALERTS_TOKEN }}
@@ -21,5 +23,6 @@ jobs:
         id: upload
         uses: actions/upload-artifact@v4
         with:
+          ref: master
           name: mapping
           path: mapping.csv
